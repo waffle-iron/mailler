@@ -43,7 +43,7 @@ public class EmailSender {
 		template.setVariable("hobbies", Arrays.asList("Cinema", "Sports", "Music"));
 		template.setVariable("imageResourceName", ""); // so that we can reference it from HTML
 		 
-		final String htmlContent = this.templateEngine.process("email-inlineimage.html", template);
+		final String htmlContent = this.templateEngine.process("email-template.html", template);
 		
 		MimeMessage message = mailSender.createMimeMessage();
 		message.setSubject(email.getSubject());

@@ -14,7 +14,12 @@ public class SqsEmailConsumer {
 	@Autowired
 	private EmailSender emailSender;
 	
-	public SqsEmailConsumer() {
+	@Deprecated // Spring eyes only 
+	SqsEmailConsumer() {
+	}
+	
+	public SqsEmailConsumer(EmailSender emailSender) {
+		this.emailSender = emailSender;
 	}
 
 	@MessageMapping("https://sqs.us-east-1.amazonaws.com/669856304367/dev-email")
