@@ -11,6 +11,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
+import org.thymeleaf.templateresolver.UrlTemplateResolver;
 
 @SpringBootApplication
 @EnableContextCredentials
@@ -33,6 +34,7 @@ public class MaillerApplication {
 	    templateEngine.addTemplateResolver(emailTemplateResolver());
 	    templateEngine.addTemplateResolver(webTemplateResolver());
 	    templateEngine.addTemplateResolver(fileTemplateResolver());
+	    templateEngine.addTemplateResolver(urlTemplateResolver());
 	    return templateEngine;
 	}
 	
@@ -40,7 +42,7 @@ public class MaillerApplication {
 	    TemplateResolver templateResolver = new ClassLoaderTemplateResolver();
 	    templateResolver.setPrefix("/mail/");
 	    templateResolver.setTemplateMode("HTML5");
-	    templateResolver.setOrder(1);
+	    templateResolver.setOrder(4);
 	    return templateResolver;
 	}
 	
@@ -59,4 +61,12 @@ public class MaillerApplication {
 		templateResolver.setOrder(3);
 		return templateResolver;
 	}
+	
+	private ITemplateResolver urlTemplateResolver() {
+		TemplateResolver templateResolver = new UrlTemplateResolver();
+		templateResolver.setTemplateMode("HTML5");
+		templateResolver.setOrder(1);
+		return templateResolver;
+	}
+	
 }
