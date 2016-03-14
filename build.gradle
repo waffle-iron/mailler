@@ -7,6 +7,7 @@ buildscript {
 		classpath("org.springframework.cloud:spring-cloud-aws-context:1.0.0.RELEASE")
 		classpath("org.springframework.cloud:spring-cloud-aws-messaging:1.0.0.RELEASE")
 		classpath("org.springframework.cloud:spring-cloud-aws-autoconfigure:1.0.0.RELEASE")
+		classpath("javax.mail:mail:1.4")
 		classpath("com.google.guava:guava:11.0.2")		
 	}
 }
@@ -34,6 +35,7 @@ dependencies {
 	compile("org.springframework.cloud:spring-cloud-aws-messaging:1.0.0.RELEASE")
 	compile("org.springframework.cloud:spring-cloud-aws-autoconfigure:1.0.0.RELEASE")
 	compile("com.google.guava:guava:11.0.2")
+	compile("javax.mail:mail:1.4")
     testCompile("junit:junit")
 }
 
