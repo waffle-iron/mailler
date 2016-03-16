@@ -1,55 +1,51 @@
 package mailler;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasValue;
+import static org.hamcrest.Matchers.is;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.mailler.controller.Content;
 import com.mailler.controller.Email;
 
 public class EmailTest {
 
 	@Test
-	public void mapToJson() throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
+	public void shouldCheckIfEmailObjectIsTheSameAsTheEmailJsonObject() throws Exception {
+		Map<String, String> properties = new HashMap<>();
+		properties.put("name", "Alexandre Gama");
+		properties.put("message", "Welcome to Mailler Gama");
+		Content bodyContent = new Content();
+		bodyContent.setProperties(properties);
 		
-		Map<String, String> infos = new HashMap<>();
-		infos.put("firstKey", "First Value");
-		infos.put("secondKey", "Second Value");
-		
-		String json = mapper.writeValueAsString(infos);
-		System.out.println(json);
-	}
-
-	@Test
-	public void emailToJson() throws Exception {
 		Email email = new Email();
+		email.setEmailFrom("alexandre.gama@elo7.com");
+		email.setEmailTo("alexandre.gama.lima@gmail.com");
+		email.setTemplate("http://s3.amazon.com/mailler/template/email.html");
+		email.setContent(bodyContent);
+		email.setSubject("Welcome");
+		
+		ObjectWriter writer = new ObjectMapper().writerWithDefaultPrettyPrinter();
+		writer.writeValue(new File("email.json"), email);
 		
 		ObjectMapper mapper = new ObjectMapper();
-		String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(email);
+		Email emailFromJson = mapper.readValue(new File("email.json"), Email.class);
 		
-		System.out.println(json);
+		assertThat(emailFromJson.getEmailFrom(), is(equalTo("alexandre.gama@elo7.com")));
+		assertThat(emailFromJson.getEmailTo(), is(equalTo("alexandre.gama.lima@gmail.com")));
+		assertThat(emailFromJson.getSubject(), is(equalTo("Welcome")));
+		assertThat(emailFromJson.getTemplate(), is(equalTo("http://s3.amazon.com/mailler/template/email.html")));
+		
+		assertThat(emailFromJson.getContent().getProperties(), hasValue("Alexandre Gama"));
+		assertThat(emailFromJson.getContent().getProperties(), hasValue("Welcome to Mailler Gama"));
 	}
 	
-	@Test
-	public void jsonToEmail() throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		
-		String json = "{\"email_to\":\"alexandre@gmail.com\",\"subject\":\"Bem vindo!\",\"content\":\"Bem vindo ao Procurando Ape\"}";
-		Email email = mapper.convertValue(json, Email.class);
-		
-		System.out.println(email);
-	}
-	
-	@Test
-	public void canDeserialize() throws Exception {
-		ObjectMapper mapper = new ObjectMapper();
-		
-		boolean canSerialize = mapper.canSerialize(Email.class);
-		
-		assertTrue(canSerialize);
-	}
 }

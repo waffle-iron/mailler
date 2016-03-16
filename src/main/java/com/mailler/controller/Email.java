@@ -18,7 +18,10 @@ public class Email {
 	private String subject;
 	
 	@JsonProperty("content")
-	private String content;
+	private Content content;
+	
+	@JsonProperty("template")
+	private String template;
 	
 	public String getEmailTo() {
 		return emailTo;
@@ -35,14 +38,6 @@ public class Email {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
 	
 	public String getEmailFrom() {
 		return emailFrom;
@@ -58,7 +53,23 @@ public class Email {
 				.add("emailFrom", emailFrom)
 				.add("emailTo", emailTo)
 				.add("subject", subject)
-				.add("content", content)
+				.add("content", getContent())
 				.toString();
+	}
+
+	public Content getContent() {
+		return content;
+	}
+
+	public void setContent(Content content) {
+		this.content = content;
+	}
+
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
 	}
 }
