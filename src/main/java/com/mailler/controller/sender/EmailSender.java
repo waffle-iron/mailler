@@ -1,8 +1,7 @@
 package com.mailler.controller.sender;
 
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -39,17 +38,15 @@ public class EmailSender {
 	public void send(Email email) throws MessagingException {
 		System.out.println("Email received: " + email);
 		
-		final Context template = new Context(Locale.getDefault());
-		template.setVariable("name", "RecipientName");
-		template.setVariable("subscriptionDate", new Date());
-		template.setVariable("hobbies", Arrays.asList("Cinema", "Sports", "Music"));
-		template.setVariable("imageResourceName", ""); // so that we can reference it from HTML
+		final Context bodyContent = new Context(Locale.getDefault());
+		Map<String, String> properties = email.getContent().getProperties();
+		properties.keySet().stream().forEach(key -> bodyContent.setVariable(key, properties.get(key)));
 		
-		final String htmlContent = this.templateEngine.process("https://s3.amazonaws.com/mailler-email-template/email-template.html", template);
+		final String htmlContent = this.templateEngine.process(email.getTemplate(), bodyContent);
 		
 		MimeMessage message = emailConverter.convertFrom(email, htmlContent, mailSender);
 		
-		System.out.println("Sending message: " + message);
+		System.out.println("Message sent!");
 		this.mailSender.send(message);
 	}
 	

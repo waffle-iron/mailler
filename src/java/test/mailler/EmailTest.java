@@ -33,11 +33,14 @@ public class EmailTest {
 		email.setContent(bodyContent);
 		email.setSubject("Welcome");
 		
-		ObjectWriter writer = new ObjectMapper().writerWithDefaultPrettyPrinter();
-		writer.writeValue(new File("email.json"), email);
+		ObjectWriter prettyWriter = new ObjectMapper().writerWithDefaultPrettyPrinter();
+		prettyWriter.writeValue(new File("email-pretty.json"), email);
+		
+		ObjectWriter writer = new ObjectMapper().writer();
+		writer.writeValue(new File("email-ugly.json"), email);
 		
 		ObjectMapper mapper = new ObjectMapper();
-		Email emailFromJson = mapper.readValue(new File("email.json"), Email.class);
+		Email emailFromJson = mapper.readValue(new File("email-pretty.json"), Email.class);
 		
 		assertThat(emailFromJson.getEmailFrom(), is(equalTo("alexandre.gama@elo7.com")));
 		assertThat(emailFromJson.getEmailTo(), is(equalTo("alexandre.gama.lima@gmail.com")));
