@@ -33,18 +33,68 @@ public class EmailToMimeMessageConverter {
 		
 		final String htmlContent = templateEngine.process(email.getTemplate(), bodyContent);
 		
-		MimeMessage message = mailSender.createMimeMessage();
-		boolean allowingMultpart = true;
-		MimeMessageHelper messageHelper = new MimeMessageHelper(message, allowingMultpart);
-		
-		message.setSubject(email.getSubject());
-		messageHelper.setTo(email.getEmailTo());
-		messageHelper.setFrom(email.getEmailFrom());
-		boolean usingHtml = true;
-		messageHelper.setText(htmlContent, usingHtml);
+		MimeMessage message = newMessage()
+			.withSubject(email.getSubject())
+			.withFromUser(email.getEmailFrom())
+			.withTo(email.getEmailTo())
+			.withContentUsingHtml(htmlContent)
+			.build();
 		
 		return message;
 	}
 	
+	private MimeMessageBuilder newMessage() throws MessagingException {
+		return new MimeMessageBuilder();
+	}
+	
+	private class MimeMessageBuilder {
+
+		private MimeMessage message;
+		
+		private MimeMessageHelper messageHelper;
+		
+		public MimeMessageBuilder() throws MessagingException {
+			boolean allowingMultipart = true;
+			message = mailSender.createMimeMessage();
+			messageHelper = new MimeMessageHelper(message, allowingMultipart);
+		}
+		
+		public MimeMessageFromBuilder withSubject(String subject) throws MessagingException {
+			message.setSubject(subject);
+			return new MimeMessageFromBuilder();
+		}
+		
+		private class MimeMessageFromBuilder {
+			
+			public MimeMessageToBuilder withFromUser(String emailFrom) throws MessagingException {
+				messageHelper.setFrom(emailFrom);
+				return new MimeMessageToBuilder();
+			}
+			
+			private class MimeMessageToBuilder {
+				
+				public MimeMessageContentBuilder withTo(String emailTo) throws MessagingException {
+					messageHelper.setTo(emailTo);
+					return new MimeMessageContentBuilder();
+				}
+			}
+			
+			private class MimeMessageContentBuilder {
+				
+				public MimeMessageBuilt withContentUsingHtml(String content) throws MessagingException {
+					boolean usingHtml = true;
+					messageHelper.setText(content, usingHtml);
+					return new MimeMessageBuilt();
+				}
+			}
+			
+			private class MimeMessageBuilt {
+				
+				public MimeMessage build() {
+					return message;
+				}
+			}
+		}
+	}
 	
 }
