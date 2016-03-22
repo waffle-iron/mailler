@@ -1,4 +1,4 @@
-package com.mailler.controller;
+package com.mailler.controller.ses.sender;
 
 import java.util.Map;
 

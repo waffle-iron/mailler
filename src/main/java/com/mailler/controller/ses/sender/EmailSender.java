@@ -1,4 +1,4 @@
-package com.mailler.controller.sender;
+package com.mailler.controller.ses.sender;
 
 import java.util.Locale;
 import java.util.Map;
@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import com.mailler.controller.Email;
-
 @Component
 public class EmailSender {
 
@@ -24,7 +22,7 @@ public class EmailSender {
 	private SpringTemplateEngine templateEngine;
 	
 	@Autowired
-	private EmailToMessageConverter emailConverter;
+	private EmailToMimeMessageConverter emailConverter;
 	
 	@Deprecated //Spring eyes only
 	EmailSender() {

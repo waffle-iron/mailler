@@ -1,4 +1,4 @@
-package com.mailler.controller.sender;
+package com.mailler.controller.ses.sender;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -7,10 +7,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import com.mailler.controller.Email;
-
 @Component
-public class EmailToMessageConverter {
+public class EmailToMimeMessageConverter {
 
 	public MimeMessage convertFrom(Email email, String htmlContent, JavaMailSender mailSender) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();

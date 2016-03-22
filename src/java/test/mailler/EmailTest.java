@@ -13,8 +13,8 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.mailler.controller.Content;
-import com.mailler.controller.Email;
+import com.mailler.controller.ses.sender.Content;
+import com.mailler.controller.ses.sender.Email;
 
 public class EmailTest {
 
