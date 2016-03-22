@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.mailler.controller.sender.Content;
 import com.mailler.controller.sender.Email;
 
-public class EmailTest {
+public class EmailJacksonSerializationTest {
 
 	@Test
 	public void shouldCheckIfEmailObjectIsTheSameAsTheEmailJsonObject() throws Exception {

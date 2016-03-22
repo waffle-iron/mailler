@@ -1,5 +1,7 @@
 package com.mailler.controller.sender;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -71,5 +73,57 @@ public class Email {
 
 	public void setTemplate(String template) {
 		this.template = template;
+	}
+	
+	public static EmailBuilder newEmail() {
+		return new EmailBuilder();
+	}
+	
+	public static class EmailBuilder {
+		
+		private Email email;
+		
+		public EmailBuilder() {
+			email = new Email();
+		}
+		
+		public EmailToBuilder withEmailFrom(String emailFrom) {
+			email.setEmailFrom(emailFrom);
+			return new EmailToBuilder();
+		}
+		
+		public class EmailToBuilder {
+			
+			public EmailSubjectBuilder withEmailTo(String emailTo) {  
+				email.setEmailTo(emailTo);
+				return new EmailSubjectBuilder();
+			}
+		}
+		
+		public class EmailSubjectBuilder {
+			
+			public EmailContentBuilder withSubject(String subject) {
+				email.setSubject(subject);
+				return new EmailContentBuilder(); 
+			}
+		}
+		
+		public class EmailContentBuilder {
+			
+			public EmailBuilt withContent(Map<String, String> properties) {
+				Content content = new Content();
+				content.setProperties(properties);
+				email.setContent(content);
+				return new EmailBuilt(); 
+			}
+		}
+		
+		public class EmailBuilt {
+			
+			public Email build() {
+				return email;
+			}
+		}
+		
 	}
 }
