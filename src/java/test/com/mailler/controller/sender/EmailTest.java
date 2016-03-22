@@ -1,4 +1,4 @@
-package mailler;
+package com.mailler.controller.sender;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -13,8 +13,8 @@ import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.mailler.controller.ses.sender.Content;
-import com.mailler.controller.ses.sender.Email;
+import com.mailler.controller.sender.Content;
+import com.mailler.controller.sender.Email;
 
 public class EmailTest {
 

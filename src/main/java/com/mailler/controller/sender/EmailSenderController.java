@@ -1,4 +1,4 @@
-package com.mailler.controller.ses.sender;
+package com.mailler.controller.sender;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSender;

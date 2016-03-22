@@ -1,4 +1,4 @@
-package com.mailler.controller;
+package com.mailler;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

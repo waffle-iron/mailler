@@ -1,4 +1,4 @@
-package com.mailler.controller.sqs.consumer;
+package com.mailler.controller.consumer;
 
 import javax.mail.MessagingException;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Component;
 
-import com.mailler.controller.ses.sender.Email;
-import com.mailler.controller.ses.sender.EmailSender;
+import com.mailler.controller.sender.Email;
+import com.mailler.controller.sender.EmailSender;
 
 @Component
 public class SqsEmailConsumer {

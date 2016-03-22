@@ -1,4 +1,4 @@
-package com.mailler.controller.ses.sender;
+package com.mailler.controller.sender;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;

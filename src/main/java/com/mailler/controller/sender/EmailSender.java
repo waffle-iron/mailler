@@ -1,4 +1,4 @@
-package com.mailler.controller.ses.sender;
+package com.mailler.controller.sender;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
