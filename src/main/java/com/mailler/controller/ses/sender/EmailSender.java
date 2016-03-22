@@ -1,25 +1,21 @@
 package com.mailler.controller.ses.sender;
 
-import java.util.Locale;
-import java.util.Map;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
-import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @Component
 public class EmailSender {
 
-	@Autowired
-	private JavaMailSender mailSender;
+	private static final Logger LOGGER = LoggerFactory.getLogger(EmailSender.class);
 	
 	@Autowired
-	private SpringTemplateEngine templateEngine;
+	private JavaMailSender mailSender;
 	
 	@Autowired
 	private EmailToMimeMessageConverter emailConverter;
@@ -28,23 +24,16 @@ public class EmailSender {
 	EmailSender() {
 	}
 	
-	public EmailSender(JavaMailSender mailSender, SpringTemplateEngine templateEngine) {
+	public EmailSender(JavaMailSender mailSender) {
 		this.mailSender = mailSender;
-		this.templateEngine = templateEngine;
 	}
 	
 	public void send(Email email) throws MessagingException {
-		System.out.println("Email received: " + email);
+		LOGGER.info("Email received: " + email);
 		
-		final Context bodyContent = new Context(Locale.getDefault());
-		Map<String, String> properties = email.getContent().getProperties();
-		properties.keySet().stream().forEach(key -> bodyContent.setVariable(key, properties.get(key)));
+		MimeMessage message = emailConverter.convertFrom(email);
 		
-		final String htmlContent = this.templateEngine.process(email.getTemplate(), bodyContent);
-		
-		MimeMessage message = emailConverter.convertFrom(email, htmlContent, mailSender);
-		
-		System.out.println("Message sent!");
+		LOGGER.info("Email has been sent");
 		this.mailSender.send(message);
 	}
 	
