@@ -1,8 +1,5 @@
 package com.mailler.controller.sender;
 
-import java.util.Locale;
-import java.util.Map;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
@@ -11,27 +8,36 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
+
+import com.mailler.controller.converter.MapPropertiesToEmailContextConverter;
 
 @Component
 public class EmailToMimeMessageConverter {
 	
 	@Autowired
-	private SpringTemplateEngine templateEngine;
+	private EmailTemplateEngine templateEngine;
 	
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	@Deprecated // Spring eyes only
+	@Autowired
+	private MapPropertiesToEmailContextConverter mapToContextConverter;
+	
+	public EmailToMimeMessageConverter(EmailTemplateEngine templateEngine, JavaMailSender mailSender,
+			MapPropertiesToEmailContextConverter mapToContextConverter) {
+		this.templateEngine = templateEngine;
+		this.mailSender = mailSender;
+		this.mapToContextConverter = mapToContextConverter;
+	}
+
+	/* Spring eyes only */
 	EmailToMimeMessageConverter() {
 	}
 
 	public MimeMessage convertFrom(Email email) throws MessagingException {
-		final Context bodyContent = new Context(Locale.getDefault());
-		Map<String, String> properties = email.getContent().getProperties();
-		properties.keySet().stream().forEach(key -> bodyContent.setVariable(key, properties.get(key)));
+		Context bodyContext = mapToContextConverter.convertFrom(email.getContent().getProperties());
 		
-		final String htmlContent = templateEngine.process(email.getTemplate(), bodyContent);
+		final String htmlContent = templateEngine.process(email.getTemplate(), bodyContext);
 		
 		MimeMessage message = newMessage()
 			.withSubject(email.getSubject())

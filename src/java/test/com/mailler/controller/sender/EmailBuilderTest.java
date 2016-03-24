@@ -1,10 +1,9 @@
 package com.mailler.controller.sender;
 
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.HashMap;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import com.google.common.collect.Maps;
@@ -17,13 +16,18 @@ public class EmailBuilderTest {
 		propertiesToContent.put("name", "Alexandre Gama");
 		
 		Email email = Email.newEmail()
-			.withEmailFrom("alexandre.gama@elo7.com")
-			.withEmailTo("alexandre.gama.lima@gmail.com")
+			.from("alexandre.gama@elo7.com")
+			.to("alexandre.gama.lima@gmail.com")
 			.withSubject("Welcome")
-			.withContent(propertiesToContent)
+			.containing(propertiesToContent)
+			.usingTheTemplate("email.html")
 			.build();
 		
-		Assertions.assertThat(email.getEmailFrom()).isEqualTo("alexandre.gama@elo7.com");
+		assertThat(email.getEmailFrom()).isEqualTo("alexandre.gama@elo7.com");
+		assertThat(email.getEmailTo()).isEqualTo("alexandre.gama.lima@gmail.com");
+		assertThat(email.getSubject()).isEqualTo("Welcome");
+		assertThat(email.getTemplate()).isEqualTo("email.html");
+		assertThat(email.getContent().getProperties().get("name")).isEqualTo("Alexandre Gama");
 	}
 	
 }

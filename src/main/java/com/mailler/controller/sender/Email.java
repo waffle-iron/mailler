@@ -87,14 +87,14 @@ public class Email {
 			email = new Email();
 		}
 		
-		public EmailToBuilder withEmailFrom(String emailFrom) {
+		public EmailToBuilder from(String emailFrom) {
 			email.setEmailFrom(emailFrom);
 			return new EmailToBuilder();
 		}
 		
 		public class EmailToBuilder {
 			
-			public EmailSubjectBuilder withEmailTo(String emailTo) {  
+			public EmailSubjectBuilder to(String emailTo) {  
 				email.setEmailTo(emailTo);
 				return new EmailSubjectBuilder();
 			}
@@ -110,11 +110,19 @@ public class Email {
 		
 		public class EmailContentBuilder {
 			
-			public EmailBuilt withContent(Map<String, String> properties) {
+			public EmailTemplateBuilder containing(Map<String, String> properties) {
 				Content content = new Content();
 				content.setProperties(properties);
 				email.setContent(content);
-				return new EmailBuilt(); 
+				return new EmailTemplateBuilder(); 
+			}
+		}
+		
+		public class EmailTemplateBuilder {
+			
+			public EmailBuilt usingTheTemplate(String template) {
+				email.setTemplate(template);
+				return new EmailBuilt();
 			}
 		}
 		
