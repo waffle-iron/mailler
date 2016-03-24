@@ -33,8 +33,7 @@ public class EmailSender {
 		
 		MimeMessage message = emailConverter.convertFrom(email);
 		
-		LOGGER.info("Email has been sent");
-		this.mailSender.send(message);
+		mailSender.send(message);
 	}
 	
 }

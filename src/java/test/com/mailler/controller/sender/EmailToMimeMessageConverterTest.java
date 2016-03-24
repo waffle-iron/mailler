@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -61,9 +62,12 @@ public class EmailToMimeMessageConverterTest {
 		
 		MimeMessage mimeMessage = converter.convertFrom(email);
 		
-		InternetAddress assertion = (InternetAddress) mimeMessage.getFrom()[0];
+		InternetAddress addressFrom = (InternetAddress) mimeMessage.getFrom()[0];
+		InternetAddress addressTo = (InternetAddress) mimeMessage.getRecipients(RecipientType.TO)[0];
 		
-		assertThat(assertion.getAddress()).isEqualTo("alexandre.gama@elo7.com");
+		assertThat(addressFrom.getAddress()).isEqualTo("alexandre.gama@elo7.com");
+		assertThat(addressTo.getAddress()).isEqualTo("alexandre@gmail.com");
+		assertThat(mimeMessage.getSubject()).isEqualTo("Welcome");
 	}
 	
 }
