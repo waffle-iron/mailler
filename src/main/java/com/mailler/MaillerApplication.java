@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.ViewResolver;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-import org.thymeleaf.templateresolver.FileTemplateResolver;
 import org.thymeleaf.templateresolver.ITemplateResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 import org.thymeleaf.templateresolver.UrlTemplateResolver;
@@ -31,35 +29,8 @@ public class MaillerApplication {
 	@Bean
 	public SpringTemplateEngine templateEngine() {
 	    SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-	    templateEngine.addTemplateResolver(emailTemplateResolver());
-	    templateEngine.addTemplateResolver(webTemplateResolver());
-	    templateEngine.addTemplateResolver(fileTemplateResolver());
 	    templateEngine.addTemplateResolver(urlTemplateResolver());
 	    return templateEngine;
-	}
-	
-	private TemplateResolver emailTemplateResolver() {
-	    TemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-	    templateResolver.setPrefix("/mail/");
-	    templateResolver.setTemplateMode("HTML5");
-	    templateResolver.setOrder(4);
-	    return templateResolver;
-	}
-	
-	private TemplateResolver webTemplateResolver() {
-	    TemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-	    templateResolver.setPrefix("/WEB-INF/templates/");
-	    templateResolver.setTemplateMode("HTML5");
-	    templateResolver.setOrder(2);
-	    return templateResolver;
-	}
-
-	private ITemplateResolver fileTemplateResolver() {
-		TemplateResolver templateResolver = new FileTemplateResolver();
-		templateResolver.setPrefix("mail/");
-		templateResolver.setTemplateMode("HTML5");
-		templateResolver.setOrder(3);
-		return templateResolver;
 	}
 	
 	private ITemplateResolver urlTemplateResolver() {
