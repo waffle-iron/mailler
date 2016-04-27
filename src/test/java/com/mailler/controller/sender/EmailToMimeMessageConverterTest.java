@@ -25,7 +25,7 @@ import com.mailler.controller.converter.MapPropertiesToEmailContextConverter;
 public class EmailToMimeMessageConverterTest {
 
 	@Mock
-	private EmailTemplateEngine templateEngine;
+	private EmailTemplateEngineProcessor templateEngine;
 	
 	private JavaMailSender mailSender = new JavaMailSenderImpl();
 	

@@ -15,7 +15,7 @@ import com.mailler.controller.converter.MapPropertiesToEmailContextConverter;
 public class EmailToMimeMessageConverter {
 	
 	@Autowired
-	private EmailTemplateEngine templateEngine;
+	private EmailTemplateEngineProcessor templateEngine;
 	
 	@Autowired
 	private JavaMailSender mailSender;
@@ -23,7 +23,7 @@ public class EmailToMimeMessageConverter {
 	@Autowired
 	private MapPropertiesToEmailContextConverter mapToContextConverter;
 	
-	public EmailToMimeMessageConverter(EmailTemplateEngine templateEngine, JavaMailSender mailSender,
+	public EmailToMimeMessageConverter(EmailTemplateEngineProcessor templateEngine, JavaMailSender mailSender,
 			MapPropertiesToEmailContextConverter mapToContextConverter) {
 		this.templateEngine = templateEngine;
 		this.mailSender = mailSender;
@@ -41,8 +41,8 @@ public class EmailToMimeMessageConverter {
 		
 		MimeMessage message = newMessage()
 			.withSubject(email.getSubject())
-			.withFromUser(email.getEmailFrom())
-			.withTo(email.getEmailTo())
+			.fromUser(email.getEmailFrom())
+			.sendingTo(email.getEmailTo())
 			.withContentUsingHtml(htmlContent)
 			.build();
 		
@@ -72,14 +72,14 @@ public class EmailToMimeMessageConverter {
 		
 		private class MimeMessageFromBuilder {
 			
-			public MimeMessageToBuilder withFromUser(String emailFrom) throws MessagingException {
+			public MimeMessageToBuilder fromUser(String emailFrom) throws MessagingException {
 				messageHelper.setFrom(emailFrom);
 				return new MimeMessageToBuilder();
 			}
 			
 			private class MimeMessageToBuilder {
 				
-				public MimeMessageContentBuilder withTo(String emailTo) throws MessagingException {
+				public MimeMessageContentBuilder sendingTo(String emailTo) throws MessagingException {
 					messageHelper.setTo(emailTo);
 					return new MimeMessageContentBuilder();
 				}

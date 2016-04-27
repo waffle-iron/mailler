@@ -6,7 +6,7 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @Component
-public class EmailTemplateEngine {
+public class EmailTemplateEngineProcessor {
 
 	@Autowired
 	private SpringTemplateEngine templateEngine;
