@@ -1,4 +1,4 @@
-package com.mailler.controller;
+package com.mailler.controller.consumer;
 
 import javax.mail.MessagingException;
 
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Component;
 
+import com.mailler.controller.sender.Email;
 import com.mailler.controller.sender.EmailSender;
 
 @Component
