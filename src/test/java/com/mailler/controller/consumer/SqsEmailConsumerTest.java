@@ -1,10 +1,11 @@
 package com.mailler.controller.consumer;
 
+import static org.mockito.Mockito.verify;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.mailler.controller.sender.Email;
@@ -26,7 +27,7 @@ public class SqsEmailConsumerTest {
 	public void shouldSendANewEmailWhenEmailConsumerReceiveANewMessage() throws Exception {
 		consumer.receive(email);
 		
-		Mockito.verify(sender).send(email);
+		verify(sender).send(email);
 	}
 	
 }
