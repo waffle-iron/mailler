@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/alexandregama/mailler.png?label=ready&title=Ready)](https://waffle.io/alexandregama/mailler)
 # Mailler
 Email sender from Amazon SQS
 
